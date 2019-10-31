@@ -9,12 +9,17 @@ import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap; import java.text.SimpleDateFormat;
+import android.graphics.Bitmap;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -36,8 +41,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.common.internal.Constants;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -154,12 +161,52 @@ public class RegisterCow extends AppCompatActivity {
         buttonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String cowBirth = cowDOB.getText().toString();
+                boolean isDateValid = false;
+                isDateValid = validateJavaDate(cowBirth);
+                System.out.println("oooooooooooooooooooooooooooopppppppppppppppppppppppppppppp  "+isDateValid );
+                if(cowBirth.isEmpty()){
+                    cowDOB.setError("Date Empty");
+                    cowDOB.requestFocus();
+                }else if(!isDateValid){
+                    cowDOB.setError("Please check the date mm/dd/yyyy");
+                    cowDOB.requestFocus();
+                }
+                else if(isDateValid) {
+                    // Calling method to upload selected image on Firebase storage.
+                    popUpConfirmation();
+                }
+            }
+        });
 
-                // Calling method to upload selected image on Firebase storage.
+
+    }
+    public void popUpConfirmation(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure you want to Register the Cow?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
                 UploadImageFileToFirebaseStorage();
-            }});
+                dialog.dismiss();
+            }
+        });
 
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
     private void galleryAddPic() {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -176,8 +223,7 @@ public class RegisterCow extends AppCompatActivity {
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
+
         File file = new File(pictureImagePath);
         photoURI = FileProvider.getUriForFile(getApplicationContext(), "com.example.android.fileprovider", file);
         //Uri outputFileUri = Uri.fromFile(file);
@@ -203,6 +249,54 @@ public class RegisterCow extends AppCompatActivity {
         return image;
     }
 
+    public static boolean validateJavaDate(String strDate)
+    {
+        /* Check if date is 'null' */
+        if (strDate.trim().equals(""))
+        {
+            return false;
+        }
+        /* Date is not 'null' */
+        else
+        {
+            /*
+             * Set preferred date format,
+             * For example MM-dd-yyyy, MM.dd.yyyy,dd.MM.yyyy etc.*/
+            SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yyyy");
+            sdfrmt.setLenient(false);
+            /* Create Date object
+             * parse the string into date
+             */
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String currentDateandTime = sdf.format(new Date());
+
+
+            try
+            {
+                Date now = sdf.parse(currentDateandTime);
+                Date given = sdf.parse(strDate);
+
+                if(now.before(given)){
+                    return false;
+                }
+                /*if(now.after(given)){
+
+                System.out.println(strDate+" is valid date format");
+                }*/
+
+                Date javaDate = sdfrmt.parse(strDate);
+                System.out.println(strDate+" is valid date format");
+            }
+            /* Date format is invalid */
+            catch (ParseException e)
+            {
+                System.out.println(strDate+" is Invalid Date format");
+                return false;
+            }
+            /* Return true if date format is valid */
+            return true;
+        }
+    }
     //method to show file chooser
     private void showFileChooser() {
         Intent intent = new Intent();
@@ -219,7 +313,6 @@ public class RegisterCow extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             FilePathUri = data.getData();
             try {
-                System.out.println("piiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiicccccccccccccccccccccccccccccc"+FilePathUri);
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), FilePathUri);
                 imageView.setImageBitmap(bitmap);
                 buttonChoose.setText("Image Selected");
@@ -243,7 +336,6 @@ public class RegisterCow extends AppCompatActivity {
             if(imgFile.exists()){
                 FilePathUri = Uri.parse(pictureImagePath);
                 FilePathUri = photoURI;
-                System.out.println(" caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"+FilePathUri);
                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
                 imageView.setImageBitmap(myBitmap);
@@ -343,9 +435,6 @@ public class RegisterCow extends AppCompatActivity {
 
                             startActivity(new Intent(RegisterCow.this, HomePage.class));
 
-                            @SuppressWarnings("VisibleForTests")
-                            Cow imageUploadInfo = new Cow(TempImageName, tagIdID,cowOrBullId,cowDOBId,editTextId,cowNameId,uri.toString());
-
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             String fullEmail = user.getEmail();
 
@@ -356,6 +445,8 @@ public class RegisterCow extends AppCompatActivity {
                             String[] splitEmail = fullEmail.split("@");
                             final String email = splitEmail[0];
 
+                            @SuppressWarnings("VisibleForTests")
+                            Cow imageUploadInfo = new Cow(TempImageName, tagIdID,cowOrBullId,cowDOBId,editTextId,cowNameId,uri.toString(),currentDateandTime);
 
                             // Adding image upload id s child element into databaseReference.
                             databaseReference.child(email).child(currentDateandTime).setValue(imageUploadInfo);

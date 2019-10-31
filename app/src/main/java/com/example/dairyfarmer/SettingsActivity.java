@@ -1,5 +1,7 @@
 package com.example.dairyfarmer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -114,10 +116,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-        updateDetails.setOnClickListener(new View.OnClickListener() {
+                updateDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -129,7 +128,8 @@ public class SettingsActivity extends AppCompatActivity {
                 final String usernameID = usernameUpdate.getText().toString();
                 final String countryID = countryUpdate.getSelectedItem().toString();
 
-
+                boolean qwer = fullEmail.equals(emailID);
+                System.out.println("bbbbbbbbbbbbee"+emailID.compareTo(fullEmail)+"eeeeeeeeeeeeeeeeeeeeeeeeee"+fullEmail+"a           b"+emailID+"b     a"+qwer);
 
                 //updateEmail(emailID);
                 database = FirebaseDatabase.getInstance();
@@ -166,40 +166,67 @@ public class SettingsActivity extends AppCompatActivity {
                             auth.signInWithEmailAndPassword(fullEmail, paswd)
                                 .addOnCompleteListener(SettingsActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.VISIBLE);
-                                if (!task.isSuccessful()) {
-                                    // there was an error
-                                    if (paswd.length() < 6) {
-                                        passwordForUpdate.setError(getString(R.string.minimum_password));
-                                    } else {
-                                        Toast.makeText(SettingsActivity.this, getString(R.string.login_failed), Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    dataSnapshot.getRef().child("country").setValue(countryID);
-                                    dataSnapshot.getRef().child("username").setValue(usernameID);
-                                    dataSnapshot.getRef().child("firstName").setValue(firstNameID);
-                                    dataSnapshot.getRef().child("lastName").setValue(lastNameID);
-                                    dataSnapshot.getRef().child("phone").setValue(phoneID);
-                                    dataSnapshot.getRef().child("email").setValue(emailID);
-                                    updateEmail(emailID);
-                                    if(fullEmail!=emailID){
-                                        String[] splitEmail = emailID.split("@");
-                                        myref.child("users").child(email).removeValue();
-                                        MainActivity.writeNewUser(usernameID,emailID,firstNameID,lastNameID,phoneID,countryID,paswd);
-                                        Toast.makeText(getApplicationContext(), "Login with Your new email", Toast.LENGTH_LONG).show();
-                                        logout();
-                                    }
-                                    Intent intent = new Intent(SettingsActivity.this, HomePage.class);
-                                    Toast.makeText(getApplicationContext(), "Data Updated Successfully", Toast.LENGTH_LONG).show();
+                            public void onComplete(@NonNull final Task<AuthResult> task) {
 
-                                    progressBar.setVisibility(View.GONE);
-                                    startActivity(intent);
-                                }
+                                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                                builder.setTitle("Confirm");
+                                builder.setMessage("Are you sure you want to Update your details?");
+
+                                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // If sign in fails, display a message to the user. If sign in succeeds
+                                        // the auth state listener will be notified and logic to handle the
+                                        // signed in user can be handled in the listener.
+                                        progressBar.setVisibility(View.VISIBLE);
+                                        if (!task.isSuccessful()) {
+                                            // there was an error
+                                            if (paswd.length() < 6) {
+                                                passwordForUpdate.setError(getString(R.string.minimum_password));
+                                            } else {
+                                                Toast.makeText(SettingsActivity.this, getString(R.string.login_failed), Toast.LENGTH_LONG).show();
+                                            }
+                                        } else {
+                                            progressBar.setVisibility(View.VISIBLE);
+                                            dataSnapshot.getRef().child("country").setValue(countryID);
+                                            dataSnapshot.getRef().child("username").setValue(usernameID);
+                                            dataSnapshot.getRef().child("firstName").setValue(firstNameID);
+                                            dataSnapshot.getRef().child("lastName").setValue(lastNameID);
+                                            dataSnapshot.getRef().child("phone").setValue(phoneID);
+                                            dataSnapshot.getRef().child("email").setValue(emailID);
+                                            updateEmail(emailID);
+boolean qwer = fullEmail.equals(emailID);
+                System.out.println("bbbbbbbbbbbbee"+emailID.compareTo(fullEmail)+"uuuuuuuuuuuuuuuuuuuuuuuuuuueeeeee"+fullEmail+"a           b"+emailID+"b     a"+qwer);
+
+                                            if(!fullEmail.equals(emailID)){
+                                                String[] splitEmail = emailID.split("@");
+                                                myref.child("users").child(email).removeValue();
+                                                MainActivity.writeNewUser(usernameID,emailID,firstNameID,lastNameID,phoneID,countryID,paswd);
+                                                Toast.makeText(getApplicationContext(), "Login with Your new email", Toast.LENGTH_LONG).show();
+                                                logout();
+                                            }
+                                            Intent intent = new Intent(SettingsActivity.this, HomePage.class);
+                                            Toast.makeText(getApplicationContext(), "Data Updated Successfully", Toast.LENGTH_LONG).show();
+
+                                            progressBar.setVisibility(View.GONE);
+                                            startActivity(intent);
+                                        }
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        // Do nothing
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                AlertDialog alert = builder.create();
+                                alert.show();
                             }
                         });
                         }

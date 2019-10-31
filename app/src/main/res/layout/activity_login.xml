@@ -15,7 +15,7 @@
         android:id="@+id/textView4"
         android:layout_width="417dp"
         android:layout_height="83dp"
-        android:background="#4B74DA"
+        android:background="#03A9F4"
         android:paddingTop="20dp"
         android:text="Livestock Farmer"
         android:textAlignment="center"
@@ -68,6 +68,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="64dp"
+        android:background="#03A9F4"
         android:enabled="true"
         android:text="Log In"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -98,6 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="A new user? Register here"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login" />
 
@@ -107,6 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Forgot Password?"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login" />
 </androidx.constraintlayout.widget.ConstraintLayout>

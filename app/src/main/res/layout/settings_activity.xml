@@ -16,6 +16,7 @@
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginStart="44dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="First Name"
         android:inputType="textPersonName"
@@ -27,6 +28,7 @@
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:hint="Last Name"
@@ -130,4 +132,59 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="First Name"
+        app:layout_constraintEnd_toEndOf="@+id/firstNameUpdate"
+        app:layout_constraintStart_toStartOf="@+id/firstNameUpdate"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Country"
+        app:layout_constraintEnd_toEndOf="@+id/countryUpdate"
+        app:layout_constraintStart_toStartOf="@+id/countryUpdate"
+        app:layout_constraintTop_toBottomOf="@+id/emailUpdate" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone Number"
+        app:layout_constraintEnd_toEndOf="@+id/phoneUpdate"
+        app:layout_constraintStart_toStartOf="@+id/phoneUpdate"
+        app:layout_constraintTop_toBottomOf="@+id/firstNameUpdate" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last Name"
+        app:layout_constraintEnd_toEndOf="@+id/lastNameUpdate"
+        app:layout_constraintStart_toStartOf="@+id/lastNameUpdate"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        app:layout_constraintEnd_toEndOf="@+id/emailUpdate"
+        app:layout_constraintStart_toEndOf="@+id/phoneUpdate"
+        app:layout_constraintTop_toBottomOf="@+id/lastNameUpdate" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        app:layout_constraintEnd_toEndOf="@+id/usernameUpdate"
+        app:layout_constraintStart_toStartOf="@+id/usernameUpdate"
+        app:layout_constraintTop_toBottomOf="@+id/phoneUpdate" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,13 @@
 package com.example.dairyfarmer;
 
 public class Cow {
-    public String cowName, tagId, cowOrBull, dateOfB, details, image, url;
+    public String cowName, tagId, cowOrBull, dateOfB, details, image, url, date;
 
     public Cow() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Cow(String cowName, String tagId,String cowOrBull,String dateOfB, String cowDetails, String image, String url) {
+    public Cow(String cowName, String tagId,String cowOrBull,String dateOfB, String cowDetails, String image, String url, String date) {
         this.cowName = cowName;
         this.tagId = tagId;
         this.cowOrBull= cowOrBull;
@@ -15,6 +15,7 @@ public class Cow {
         this.details = cowDetails;
         this.image = image;
         this.url = url;
+        this.date =date;
     }
     public String getCowName() {
         return cowName;
@@ -36,6 +37,9 @@ public class Cow {
     }
     public String getImageURL() {
         return url;
+    }
+    public String getDate(){
+        return date;
     }
 
 }
