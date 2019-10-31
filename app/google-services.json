@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "624708910112",
+    "firebase_url": "https://dairyfarmer-4356c.firebaseio.com",
+    "project_id": "dairyfarmer-4356c",
+    "storage_bucket": "dairyfarmer-4356c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624708910112:android:17fb2d92752baa24885045",
+        "android_client_info": {
+          "package_name": "com.example.dairyfarmer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624708910112-m12um541tkh8t9jn17gclpg9cbkjeik0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dairyfarmer",
+            "certificate_hash": "6a97817b30b50d51b68f3ea5b89fe461c11a312a"
+          }
+        },
+        {
+          "client_id": "624708910112-c0c5uhpsh4akjlhta30ctgm0avgjmn4m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk3p7fZJoWlMLTIaDsg4rbfcFbYfRF1kM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624708910112-c0c5uhpsh4akjlhta30ctgm0avgjmn4m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

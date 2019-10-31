@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewAndUpdateCow">
+
+    <ImageView
+        android:id="@+id/CowImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/galleryChoose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Choose from \nGallery"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/CowImageView" />
+
+    <Button
+        android:id="@+id/takePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Take Another \nPicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/galleryChoose"
+        app:layout_constraintTop_toBottomOf="@id/CowImageView" />
+
+    <EditText
+        android:id="@+id/dateOfBUpdate"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cowOrBullUpdate"
+        app:layout_constraintTop_toBottomOf="@+id/tagIdUpdate" />
+
+    <EditText
+        android:id="@+id/cowNameUpdate"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/galleryChoose" />
+
+    <EditText
+        android:id="@+id/tagIdUpdate"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cowNameUpdate"
+        app:layout_constraintTop_toBottomOf="@+id/takePicture" />
+
+    <Spinner
+        android:id="@+id/cowOrBullUpdate"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cowNameUpdate" />
+
+    <Button
+        android:id="@+id/updateCowDetailsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="40dp"
+        android:text="Update"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cowDetailsUpdate" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Cow Name"
+        app:layout_constraintBottom_toTopOf="@+id/cowNameUpdate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/galleryChoose" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cow Details"
+        app:layout_constraintBottom_toTopOf="@+id/cowDetailsUpdate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cowOrBullUpdate" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Cow Or Bull?"
+        app:layout_constraintBottom_toTopOf="@+id/cowOrBullUpdate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cowNameUpdate" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="2dp"
+        android:text="Tag Id"
+        app:layout_constraintBottom_toTopOf="@+id/tagIdUpdate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/takePicture" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date of Birth"
+        app:layout_constraintBottom_toTopOf="@+id/dateOfBUpdate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/tagIdUpdate" />
+
+    <EditText
+        android:id="@+id/cowDetailsUpdate"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="107dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateOfBUpdate" />
+</androidx.constraintlayout.widget.ConstraintLayout>

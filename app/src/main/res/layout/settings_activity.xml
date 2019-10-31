@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".SettingsActivity">
+
+    <EditText
+        android:id="@+id/firstNameUpdate"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="44dp"
+        android:ems="10"
+        android:hint="First Name"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/lastNameUpdate"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:hint="Last Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.524"
+        app:layout_constraintStart_toEndOf="@id/firstNameUpdate"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/phoneUpdate"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Phone Number"
+        android:inputType="phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/firstNameUpdate" />
+
+    <EditText
+        android:id="@+id/emailUpdate"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/phoneUpdate"
+        app:layout_constraintTop_toBottomOf="@id/lastNameUpdate" />
+
+    <EditText
+        android:id="@+id/usernameUpdate"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="username"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phoneUpdate" />
+
+    <EditText
+        android:id="@+id/passwordForUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Type Password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeToLogin" />
+
+    <Button
+        android:id="@+id/updateDetails"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="#4B74DA"
+        android:text="Update Details"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordForUpdate" />
+
+    <TextView
+        android:id="@+id/changeToLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="24dp"
+        android:text="Enter Your Password to update details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameUpdate" />
+
+    <Spinner
+        android:id="@+id/countryUpdate"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/usernameUpdate"
+        app:layout_constraintTop_toBottomOf="@id/emailUpdate" />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
