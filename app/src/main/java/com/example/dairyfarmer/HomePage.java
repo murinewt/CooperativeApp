@@ -167,17 +167,6 @@ public class HomePage extends AppCompatActivity {
 
             String[] splitEmail = fullEmail.split("@");
             final String email = splitEmail[0];
-            System.out.println(email);
-
-
-            /*registerCow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(HomePage.this, RegisterCow.class);
-                    intent.putExtra("email",email);
-                    startActivity(intent);
-                }
-            });*/
 
             // Assign id to RecyclerView.
             recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -232,7 +221,6 @@ public class HomePage extends AppCompatActivity {
                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                         Cow imageUploadInfo = postSnapshot.getValue(Cow.class);
-                        System.out.println("aaaaaaaaaaaaaaaa"+imageUploadInfo);
 
                         list.add(imageUploadInfo);
                     }

@@ -66,7 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
         //get the spinner from the xml.
         countryUpdate = findViewById(R.id.countryUpdate);
         //create a list of items for the spinner.
-        String[] items = new String[]{"Kenya","Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
+        String[] countries = new String[]{"Kenya","Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
                 ,"Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands"
                 ,"Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica"
                 ,"Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea"
@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
                 ,"Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countries);
         //set the spinners adapter to the previously created one.
         countryUpdate.setAdapter(adapter);
 
@@ -195,13 +195,9 @@ public class SettingsActivity extends AppCompatActivity {
                                             dataSnapshot.getRef().child("phone").setValue(phoneID);
                                             dataSnapshot.getRef().child("email").setValue(emailID);
                                             updateEmail(emailID);
-boolean qwer = fullEmail.equals(emailID);
-                System.out.println("bbbbbbbbbbbbee"+emailID.compareTo(fullEmail)+"uuuuuuuuuuuuuuuuuuuuuuuuuuueeeeee"+fullEmail+"a           b"+emailID+"b     a"+qwer);
-
                                             if(!fullEmail.equals(emailID)){
-                                                String[] splitEmail = emailID.split("@");
                                                 myref.child("users").child(email).removeValue();
-                                                MainActivity.writeNewUser(usernameID,emailID,firstNameID,lastNameID,phoneID,countryID,paswd);
+                                                MainActivity.writeNewUser(usernameID,emailID,firstNameID,lastNameID,phoneID,countryID);
                                                 Toast.makeText(getApplicationContext(), "Login with Your new email", Toast.LENGTH_LONG).show();
                                                 logout();
                                             }

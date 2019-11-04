@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         //get the spinner from the xml.
         country = findViewById(R.id.country);
         //create a list of items for the spinner.
-        String[] items = new String[]{"Kenya","Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
+        String[] countries = new String[]{"Kenya","Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
                 ,"Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands"
                 ,"Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica"
                 ,"Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea"
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 ,"Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countries);
         //set the spinners adapter to the previously created one.
         country.setAdapter(adapter);
 
@@ -125,10 +125,11 @@ public class MainActivity extends AppCompatActivity {
                 } else if (paswd.isEmpty()) {
                     password.setError("Set your password");
                     password.requestFocus();
-                } else if (emailID.isEmpty() && paswd.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
+                } else if (paswd.length() < 8) {
+                    password.setError("Set your password length to 8");
+                    password.requestFocus();
                 } else if (!(emailID.isEmpty() && paswd.isEmpty()&&firstNameID.isEmpty()&&lastNameID.isEmpty()&&phoneID.isEmpty()&&usernameID.isEmpty())) {
-                    writeNewUser(usernameID,emailID,firstNameID,lastNameID,phoneID,countryID,paswd);
+                    writeNewUser(usernameID,emailID,firstNameID,lastNameID,phoneID,countryID);
                     firebaseAuth.createUserWithEmailAndPassword(emailID, paswd).addOnCompleteListener(MainActivity.this, new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
@@ -148,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public static void writeNewUser(String username, String email, String firstName, String lastName, String phone, String country, String password) {
-        User user = new User(username, email, firstName,lastName,phone,country,password);
+    public static void writeNewUser(String username, String email, String firstName, String lastName, String phone, String country) {
+        User user = new User(username, email, firstName,lastName,phone,country);
         String[] splitEmail = email.split("@");
         email = splitEmail[0];
         myRef.child(email).setValue(user);
