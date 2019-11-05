@@ -75,6 +75,7 @@ public class ViewAndUpdateCow extends AppCompatActivity {
     Button updateCowDetailsBtn, takePicture, galleryChoose;
     // Folder path for Firebase Storage.
     String Storage_Path = "All_Image_Uploads/";
+    private boolean imageChange = false;
     //List<Cow> MainImageUploadInfoList;
 
     ProgressDialog progressDialog ;
@@ -94,6 +95,7 @@ public class ViewAndUpdateCow extends AppCompatActivity {
     private FirebaseAuth auth;
     FirebaseUser user;
     FirebaseDatabase database;Integer position;
+    Cow UploadInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +133,7 @@ public class ViewAndUpdateCow extends AppCompatActivity {
         cowOrBullUpdate.setAdapter(adapter);
 
 
-        Cow UploadInfo = X.MainImageUploadInfoList.get(position);
+        UploadInfo = X.MainImageUploadInfoList.get(position);
         cowDetailsUpdate.setText((UploadInfo.getCowDetails()));
         cowNameUpdate.setText(UploadInfo.getCowName());
         tagIdUpdate.setText(UploadInfo.getTagId());
@@ -169,6 +171,7 @@ public class ViewAndUpdateCow extends AppCompatActivity {
         String[] splitEmail = fullEmail.split("@");
         final String email = splitEmail[0];
 
+        childPath = UploadInfo.getDate();
 
         final String cowNameUpdateID = cowNameUpdate.getText().toString();
         final String tagIdUpdateID = tagIdUpdate.getText().toString();
@@ -177,17 +180,40 @@ public class ViewAndUpdateCow extends AppCompatActivity {
         //final String phoneID = phoneUpdate.getText().toString();
         //final String usernameID = usernameUpdate.getText().toString();
         final String cowOrBullUpdateID = cowOrBullUpdate.getSelectedItem().toString();
-        System.out.println("filepathhhhhhhhhhhhhhhhhhhhhhhh "+FilePathUri);
 
         if (FilePathUri != null || cowImage.getDrawable() != null) {
             // Setting progressDialog Title.
-            progressDialog.setTitle("Image is Uploading...");
+            progressDialog.setTitle("Data is Updating...");
 
             // Showing progressDialog.
             progressDialog.show();
 
+            database = FirebaseDatabase.getInstance();
+            myref = database.getReference();
+            myref.child("All_Image_Uploads_Database").child(email).child(childPath).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                    // Adding image upload id s child element into databaseReference.
+                    dataSnapshot.getRef().child("cowOrBull").setValue(cowOrBullUpdateID);
+                    dataSnapshot.getRef().child("dateOfB").setValue(dateOfBUpdateID);
+                    dataSnapshot.getRef().child("details").setValue(cowDetailsUpdateID);
+                    dataSnapshot.getRef().child("cowName").setValue(cowNameUpdateID);
+                    dataSnapshot.getRef().child("image").setValue(cowNameUpdateID);
+                    dataSnapshot.getRef().child("tagId").setValue(tagIdUpdateID);
+                    // Showing toast message after done uploading.
+                    Toast.makeText(getApplicationContext(), "Data Updated Successfully ", Toast.LENGTH_LONG).show();
+                    }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
             // Creating second StorageReference.
-            final StorageReference storageReference2nd = storageReference.child(Storage_Path + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
+            if(imageChange==true){
+                final StorageReference storageReference2nd = storageReference.child(Storage_Path + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
+            //}
             // Adding addOnSuccessListener to second StorageReference.
             storageReference2nd.putFile(FilePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -196,43 +222,8 @@ public class ViewAndUpdateCow extends AppCompatActivity {
                         @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onSuccess(Uri uri) {
-                            // Log.d(TAG, "onSuccess: uri= "+ uri.toString());
-
-                            // Getting image name from EditText and store into string variable.
-                            String TempImageName = cowNameUpdate.getText().toString().trim();
-
-                            // Hiding the progressDialog after done uploading.
-                            progressDialog.dismiss();
-
-                            // Showing toast message after done uploading.
-                            Toast.makeText(getApplicationContext(), "Data Updated Successfully ", Toast.LENGTH_LONG).show();
-
-                            startActivity(new Intent(ViewAndUpdateCow.this, HomePage.class));
-
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            String fullEmail = user.getEmail();
-
-                            // Getting image upload ID.
-                            //String ImageUploadId = databaseReference.push().getKey();
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-                            String currentDateandTime = sdf.format(new Date());
-                            String[] splitEmail = fullEmail.split("@");
-                            final String email = splitEmail[0];
-
-                            @SuppressWarnings("VisibleForTests")
-                            Cow imageUploadInfo = new Cow(TempImageName, tagIdUpdateID,cowOrBullUpdateID,dateOfBUpdateID,cowDetailsUpdateID,cowNameUpdateID,uri.toString(),currentDateandTime);
-
-                            // Adding image upload id s child element into databaseReference.
-                            databaseReference.child(email).child(childPath).child("cowOrBull").setValue(cowOrBullUpdateID);
-                            databaseReference.child(email).child(childPath).child("dateOfB").setValue(dateOfBUpdateID);
-                            databaseReference.child(email).child(childPath).child("details").setValue(cowDetailsUpdateID);
-                            databaseReference.child(email).child(childPath).child("cowName").setValue(cowNameUpdateID);
-                            databaseReference.child(email).child(childPath).child("image").setValue(cowNameUpdateID);
-                            databaseReference.child(email).child(childPath).child("imageUrl").setValue(uri.toString());
-                            databaseReference.child(email).child(childPath).child("tagId").setValue(tagIdUpdateID);
-                            databaseReference.child(email).child(childPath).child("url").setValue(uri.toString());
-                            Intent intent = new Intent(ViewAndUpdateCow.this, HomePage .class);
-                            startActivity(intent);
+                           databaseReference.child(email).child(childPath).child("imageUrl").setValue(uri.toString());
+                           databaseReference.child(email).child(childPath).child("url").setValue(uri.toString());
                         }
                     });
                 }
@@ -255,6 +246,10 @@ public class ViewAndUpdateCow extends AppCompatActivity {
 
                         }
                     });
+            }
+            Intent intent = new Intent(ViewAndUpdateCow.this, HomePage .class);
+            startActivity(intent);
+
         }
         else {
 
@@ -311,6 +306,8 @@ public class ViewAndUpdateCow extends AppCompatActivity {
         photoURI = FileProvider.getUriForFile(getApplicationContext(), "com.example.android.fileprovider", file);
         //Uri outputFileUri = Uri.fromFile(file);
         Uri outputFileUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.android.fileprovider", file);
+
+        imageChange = true;
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
         startActivityForResult(cameraIntent, 123);
@@ -318,6 +315,8 @@ public class ViewAndUpdateCow extends AppCompatActivity {
     private void showFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
+
+        imageChange = true;
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
@@ -342,7 +341,6 @@ public class ViewAndUpdateCow extends AppCompatActivity {
             if(imgFile.exists()){
                 FilePathUri = Uri.parse(pictureImagePath);
                 FilePathUri = photoURI;
-                System.out.println(" caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"+FilePathUri);
                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
                 cowImage.setImageBitmap(myBitmap);

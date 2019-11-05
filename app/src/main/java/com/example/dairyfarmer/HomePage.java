@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomePage extends AppCompatActivity {
-    private TextView registerCow,welcomeUser;
+    private TextView numCattle,welcomeUser;
     private ProgressBar progressBar;
     private static final String TAG = "HomePage";
     private FirebaseAuth auth;
@@ -160,6 +160,7 @@ public class HomePage extends AppCompatActivity {
             // User is signed in
             //registerCow = findViewById(R.id.registerCow);
             welcomeUser = findViewById(R.id.welcomeUser);
+            numCattle = findViewById(R.id.numOfCattle);
             //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -197,6 +198,7 @@ public class HomePage extends AppCompatActivity {
                     User me = getUserDetails.get(0);
                     welcomeUser.setText("");
                     welcomeUser.append("Welcome "+me.getUsername());
+
                 }
 
                 @Override
@@ -217,14 +219,18 @@ public class HomePage extends AppCompatActivity {
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-
+                    int number = 0;
                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                         Cow imageUploadInfo = postSnapshot.getValue(Cow.class);
 
                         list.add(imageUploadInfo);
-                    }
 
+
+                    }
+                    number = (int) snapshot.getChildrenCount();
+                    numCattle.setText("");
+                    numCattle.setText(number+" Cattles");
                     adapter = new RecyclerViewAdapter(getApplicationContext(), list);
                     recyclerView.setAdapter(adapter);
 
