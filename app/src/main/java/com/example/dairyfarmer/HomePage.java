@@ -170,9 +170,10 @@ public class HomePage extends AppCompatActivity {
             final String email = splitEmail[0];
 
             // Assign id to RecyclerView.
-            recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+            recyclerView = findViewById(R.id.recyclerView);
 
             // Setting RecyclerView size true.
+
             recyclerView.setHasFixedSize(true);
 
             // Setting RecyclerView layout as LinearLayout.
@@ -182,7 +183,7 @@ public class HomePage extends AppCompatActivity {
             progressDialog = new ProgressDialog(HomePage.this);
 
             // Setting up message in Progress dialog.
-            progressDialog.setMessage("Loading Images From Firebase.");
+            progressDialog.setMessage("Loading");
 
             // Showing progress dialog.
             progressDialog.show();
@@ -220,6 +221,7 @@ public class HomePage extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     int number = 0;
+                    list.clear();
                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                         Cow imageUploadInfo = postSnapshot.getValue(Cow.class);
